@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -12,6 +13,11 @@ class _InputPageState extends State<InputPage> {
   String _email = '';
   String _password = '';
   String _fecha = '';
+  String _opcionSeleccionada = 'Cantar';
+  List<String> _poderes = ['volar','rayos x', 'rayos laser '];
+ 
+
+
   TextEditingController _inputFieldDateController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -29,6 +35,8 @@ class _InputPageState extends State<InputPage> {
           _crearPassword(),
           Divider(),
           _crearFecha(context),
+          Divider(),
+          _crearDropDown(),
           Divider(),
           _crearPersona(),
         ],
@@ -61,6 +69,7 @@ class _InputPageState extends State<InputPage> {
     return ListTile(
       title: Text('Nombre es: $_nombre'),
       subtitle: Text('Email es: $_email'),
+      trailing: Text(_opcionSeleccionada)
     );
   }
 
@@ -123,6 +132,7 @@ class _InputPageState extends State<InputPage> {
         initialDate: new DateTime.now,
         firstDate: new DateTime(2018),
         lastDate: new DateTime(2025)
+        locale: Locale('es', 'ES'),
         );
         if (picked != null){
           setState(() {
@@ -132,4 +142,38 @@ class _InputPageState extends State<InputPage> {
 
         }
   }
+  List<DropdownMenuItem<String>> getOpcionesDropDown() {
+
+     List<DropdownMenuItem<String>> lista = [];
+
+     _poderes.forEach((poder){
+       print(poder);
+       lista.add(DropdownMenuItem(
+         child:Text(poder),
+         value:poder,
+       ));
+     });
+        return lista;
+     }
+
+     Widget _crearDropDown() {
+       return Column(
+         children: <Widget>[
+      Icon(Icons.select_all),
+      SizedBox(width:30.0),
+      DropdownButton(
+      items: getOpcionesDropDown(),
+      onChanged: (opt){
+          setState(() {
+            
+          });
+      },
+    )
+         ]
+       );
+   
+  }
+
+
 }
+   
